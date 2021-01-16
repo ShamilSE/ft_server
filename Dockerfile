@@ -23,23 +23,21 @@ COPY ./srcs/nginx.config /etc/nginx/sites-available/
 COPY ./srcs/server_db.sql /etc/nginx/sql
 RUN ln -s /etc/nginx/sites-available/nginx.config /etc/nginx/sites-enabled
 
-WORKDIR /var/www/ft_server/wordpress
-
 # wordpress
+WORKDIR /var/www/ft_server/wordpress
 RUN wget https://wordpress.org/latest.tar.gz
 RUN tar -xzvf latest.tar.gz
 RUN rm -rf latest.tar.gz
-RUN chown -R www-data:www-data /var/www/ft_server/wordpress
+RUN chown -R www-data:www-data wordpress
 COPY ./srcs/wp-config.php .
 
-WORKDIR /var/www/ft_server
-
 # phpmyadmin
+WORKDIR /var/www/ft_server
 RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.tar.gz
 RUN tar -xzvf phpMyAdmin-5.0.4-all-languages.tar.gz
 RUN rm -rf phpMyAdmin-5.0.4-all-languages.tar.gz
-RUN mv phpMyAdmin-5.0.4-all-languages/ /var/www/ft_server/phpmyadmin
-COPY ./srcs/config.inc.php /var/www/ft_server/phpmyadmin
+RUN mv phpMyAdmin-5.0.4-all-languages phpmyadmin
+COPY ./srcs/config.inc.php phpmyadmin
 
 # sertificate
 RUN openssl req -x509 -nodes -days 365 -subj\
