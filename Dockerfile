@@ -24,12 +24,12 @@ COPY ./srcs/server_db.sql /etc/nginx/sql
 RUN ln -s /etc/nginx/sites-available/nginx.config /etc/nginx/sites-enabled
 
 # wordpress
-WORKDIR /var/www/ft_server/wordpress
+WORKDIR /var/www/ft_server/
 RUN wget https://wordpress.org/latest.tar.gz
 RUN tar -xzvf latest.tar.gz
 RUN rm -rf latest.tar.gz
 RUN chown -R www-data:www-data wordpress
-COPY ./srcs/wp-config.php .
+COPY ./srcs/wp-config.php wordpress
 
 # phpmyadmin
 WORKDIR /var/www/ft_server
@@ -44,6 +44,6 @@ RUN openssl req -x509 -nodes -days 365 -subj\
 	"/C=RU/ST=Tatarstan/L=Kazan/O=21school/OU=Evolution/CN=localhost"\
 	-newkey rsa:2048 -keyout /etc/ssl/shamil.key -out /etc/ssl/shamil.crt;
 
-COPY /srcs/init.sh ./
+COPY /srcs/init.sh .
 
 CMD bash init.sh
